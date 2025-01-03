@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
+
+cred = credentials.Certificate("firebase_credentials.json")
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 @app.route('/')
 def home():
@@ -17,6 +24,18 @@ def register():
     email = request.form.get('email', 'N/A')  # Optional field
 
     print(f"Fullname: {fullname}, Address: {address}, City: {city}, State: {state}, Pincode: {pincode}, Phone: {phone}, Email: {email}")
+
+    # Save the data to Firestore
+    user_ref = db.collection('users').document()
+    user_ref.set({
+        'fullname': fullname,
+        'address': address,
+        'city': city,
+        'state': state,
+        'pincode': pincode,
+        'phone': phone,
+        'email': email
+    })
 
     return f"""
         <h1>Registration Successful!</h1>
