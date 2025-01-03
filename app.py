@@ -70,6 +70,10 @@ def registration_form():
     print("Authenticated")
     return render_template('registration_form.html')
 
-
+@app.route('/verify_phone', methods=['POST'])
+def verify_phone():
+    session['authenticated'] = True  # Store session after verification
+    return redirect(url_for('registration_form'))
+    
 if __name__ == "__main__":
     app.run(debug=True)
