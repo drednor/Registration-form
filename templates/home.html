@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <style>
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url("{{ url_for('static', filename='images/drone-bg.jpg') }}"), #000;
+      background-position: center;
+      background-size: cover;
+    }
+  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrapper">
+    <h2>Enter Your Phone Number</h2>
+    <form action="/send_otp" method="post">
+      
+      <!-- Phone Number Field -->
+      <div class="input-field">
+        <input type="tel" id="phone" name="phone" pattern="\d*" required>
+        <label for="phone"><b>Enter your Phone Number</b></label>
+      </div>
+
+      <!-- Submit Button to Send OTP -->
+      <button type="submit" value="Send OTP">Send OTP</button>
+    </form>
+
+    <div id="recaptcha-container"></div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+  
+  <script>
+    // Firebase Configuration (use your own credentials here)
+    const firebaseConfig = {
+  apiKey: "AIzaSyB1S3VRDBw648zJCN0_-URdbsUDx9f5bIw",
+  authDomain: "sign-up-22dc8.firebaseapp.com",
+  projectId: "sign-up-22dc8",
+  storageBucket: "sign-up-22dc8.firebasestorage.app",
+  messagingSenderId: "171360155402",
+  appId: "1:171360155402:web:4e07780b0dee46d7a36cf3",
+  measurementId: "G-MFB0NQY860"
+};
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // ReCAPTCHA verifier setup
+    const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      size: 'normal',
+      callback: (response) => {
+        console.log('Recaptcha passed');
+      },
+      'expired-callback': () => {
+        console.log('Recaptcha expired');
+      }
+    });
+
+    // Send OTP function
+    function sendOTP() {
+      const phoneNumber = document.getElementById("phone").value;
+      const appVerifier = recaptchaVerifier;
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          // OTP sent successfully, store confirmationResult for future use
+          window.confirmationResult = confirmationResult;
+          alert("OTP has been sent to your phone.");
+          // Redirect or show next OTP input form
+        }).catch((error) => {
+          console.error("Error sending OTP:", error);
+        });
+    }
+
+    // Trigger OTP sending when form is submitted
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();  // Prevent the form from refreshing the page
+      sendOTP();
+    });
+  </script> -->
+</body>
+</html>
