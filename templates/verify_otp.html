@@ -14,12 +14,23 @@
       background-position: center;
       background-size: cover;
     }
+    .error-message {
+      color: red;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
   </style>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="wrapper">
     <h2>Enter OTP</h2>
+
+    <!-- Display Error Message if Exists -->
+    {% if error %}
+      <p class="error-message">{{ error }}</p>
+    {% endif %}
+
     <form action="/verify_otp" method="post">
       <!-- OTP Field -->
       <div class="input-field">
@@ -27,7 +38,7 @@
         <label for="otp"><b>Enter OTP</b></label>
       </div>
       <!-- Submit Button -->
-      <button type="submit" value="Verify OTP">Verify OTP</button>
+      <button type="submit">Verify OTP</button>
     </form>
   </div>
 </body>

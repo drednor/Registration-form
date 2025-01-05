@@ -51,7 +51,7 @@ def send_otp():
     session['otp'] = otp
     session['phone'] = phone
     print(f"OTP: {otp}")
-    return render_template('verify_otp.html')
+    return render_template('verify_otp.html', error=None)
 
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
@@ -61,7 +61,8 @@ def verify_otp():
         session['authenticated'] = True
         return redirect(url_for('registration_form'))
 
-    return "<h1>Invalid OTP</h1>"
+    # If OTP is incorrect, re-render the same page with an error message
+    return render_template('verify_otp.html', error="Invalid OTP. Please try again.")
 
 @app.route('/registration_form')
 def registration_form():
