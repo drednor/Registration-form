@@ -38,6 +38,7 @@ def register():
         'phone': phone,
         'email': email
     })
+    print("saved to database")
 
     return f"""
         <h1>Registration Successful!</h1>
