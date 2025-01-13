@@ -2,12 +2,25 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import firebase_admin
 from firebase_admin import credentials, firestore
 import random
+import os
+import json
 
 app = Flask(__name__)
-app.secret_key = "doodle"
+app.secret_key = os.getenv("SECRET_KEY", "default_secret")
 
-cred = credentials.Certificate("firebase-credentials.json")
-firebase_admin.initialize_app(cred)
+if os.getenv("RENDER") == "true":  # Set this env var in Render
+    print("Running in Production...")
+    firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
+    if firebase_credentials:
+        cred_dict = json.loads(firebase_credentials)  # Load from env var
+        cred = credentials.Certificate(cred_dict)
+        firebase_admin.initialize_app(cred)
+    else:
+        raise ValueError("FIREBASE_CREDENTIALS environment variable not set")
+else:
+    print("Running Locally...")
+    cred = credentials.Certificate("firebase-credentials.json")
+    firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
@@ -78,4 +91,4 @@ def verify_phone():
     return redirect(url_for('registration_form'))
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
